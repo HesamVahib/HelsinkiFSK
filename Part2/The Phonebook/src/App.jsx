@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/persons'
 import {mainUrl} from './services/persons'
+import {Notification, ErrorNotification} from './components/Notification'
 
 const Filter = ({value, onChange}) => {
   return(
@@ -50,6 +50,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchItem, setSearchItem] = useState('')
+  const [addNotif, setAddNotif] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect (() => {
     personService
@@ -84,16 +86,26 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.map(p => (p.id === pId ? returnedPerson : p)))
         })
+        .catch(error => {
+          setErrorMessage(`Information of ${newObject.name} has already been removed from server`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000);
+        })
       } else {
         console.log('Number replacement has been cancelled')
       }
 
       }else {
-        personService
+      personService
         .create(newObject)
         .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
-        console.log('Success! create')
+        setAddNotif(`Added ${newObject.name}`)
+        setTimeout(() => {
+          setAddNotif(null)
+        },5000)
+        console.log('Success! create')          
     })
     .catch(error => {
       console.log('fail create')
@@ -111,9 +123,9 @@ const App = () => {
     const personToDelete = persons.find(person => person.id === id)
     
     if(window.confirm(`Delete ${personToDelete.name}?`)){
-    axios
-    .delete(url)
-    .then(response => {
+    personService
+    .deleteContact(url)
+    .then(Response => {
       setPersons(persons.filter(person => person.id !== personToDelete.id))
       console.log(`${personToDelete.name} is just deleted`)
     })
@@ -137,6 +149,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <ErrorNotification message={errorMessage} />
+      <Notification message={addNotif} />
       <Filter value={searchItem} onChange={searchHandler} />
       <h3>Add a new</h3>
       <PersonForm onSubmit = {newPerson}

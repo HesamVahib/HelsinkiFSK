@@ -16,5 +16,10 @@ const getAll = () => {
     return request.then(response => response.data)
   }
 
-export default {getAll, create, update}
+  const deleteContact = (url) => {
+    const request = axios.delete(url)
+    return request.then(response => response.data)
+  }
+
+export default {getAll, create, update, deleteContact}
 export const mainUrl = baseUrl
