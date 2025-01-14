@@ -4,24 +4,25 @@ const Button = ({onTap, text}) => {
   return <button onClick={onTap}>{text}</button>
 }
 
+const Display = ({text, tag}) => {
+    const Tag = tag || 'p';
+    return <Tag>{text}</Tag>
+};
+
 const MostVoted = (props) => {
   const maxVoted = Math.max(...props.votes)
   const indexOfMax = props.votes.indexOf(maxVoted)
   const largestAnecdotes = props.anecdotes[indexOfMax]
 
-  if (maxVoted === 0)
-  return(
-    <div>
-    <p>you have not voted yet</p>
-    </div>
-  )
-  return(
-    <div>
-    {largestAnecdotes}
-    <p> has {maxVoted}  votes</p>
-    </div>
-  )
-}
+  return <div> {maxVoted === 0 ?
+    (<Display text = "you have not voted yet" />
+   ) : (
+    <>
+    <Display text = {largestAnecdotes}/>
+    <Display text = {`has ${maxVoted} votes`} />
+    </>
+    )} </div>
+  };
 
 const App = () => {
   const anecdotes = [
@@ -47,20 +48,19 @@ const App = () => {
     const newVotes = [...votes]
     newVotes[selected] += 1
     setVotes(newVotes)
-    console.log(votes)
   }
 
   return (
     <div>
-      <h1> Anecdote of the day</h1>
-      {anecdotes[selected]} <br/>
-      <p>has {votes[selected]} votes</p>
+      <Display text ="Anecdote of the day" tag = 'h1'/>
+      <Display text = {anecdotes[selected]} />
+      <Display text = {`has ${votes[selected]} votes`} />
       <Button onTap={voteHandler} text ='vote' />
       <Button onTap={randomNumber} text ='next anecdote' />
-      <h1> Anecdote with most votes</h1>
+      <Display text = "Anecdote with most votes" tag = 'h1'/>
       <MostVoted votes={votes} anecdotes={anecdotes}/>
     </div>
   )
 }
 
-export default App
+export default App;
