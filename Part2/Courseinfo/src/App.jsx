@@ -1,4 +1,5 @@
 import Course from "./component/Course"
+import Display from "./component/Display"
 
 const App = () => {
   const course = [
@@ -47,12 +48,12 @@ const App = () => {
   ]
 
   return (
-    <div>
-      <h1>Web development curriculum</h1>
+    <>
+      <Display tag="h1" text="Web development curriculum" />
       {course.map((eachCourse) => (
         <Course key={eachCourse.id} course={eachCourse} />
       ))}
-    </div>
+    </>
   )
 }
 

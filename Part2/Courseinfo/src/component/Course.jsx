@@ -1,15 +1,15 @@
+import Display from './Display';
+
 const Course = ({course}) => {
     return (
       <div>
-      <h2>{course.name}
-      </h2>
+      <Display tag="h2" text={course.name} />
       {course.parts.map(part =>
-        <p key={part.id}>{part.name} {part.exercises}</p>
+        <Display key={part.id} tag="p" text={part.name} />
       )}
-    <p> <b>total of {course.parts.reduce((accumulator,sumcourses ) =>
-        accumulator + sumcourses.exercises, 0) } exercies</b></p>
+        <Display tag="b" text={`Total of ${course.parts.reduce((sum, part) => sum + part.exercises, 0)} exercises`} />
       </div>
     )
   }
 
-export default Course
+  export default Course;
