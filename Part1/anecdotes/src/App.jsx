@@ -14,14 +14,14 @@ const MostVoted = (props) => {
   const indexOfMax = props.votes.indexOf(maxVoted)
   const largestAnecdotes = props.anecdotes[indexOfMax]
 
-  return <div> {maxVoted === 0 ?
+  return (<div> {maxVoted === 0 ?
     (<Display text = "you have not voted yet" />
    ) : (
     <>
-    <Display text = {largestAnecdotes}/>
-    <Display text = {`has ${maxVoted} votes`} />
+      <Display text = {largestAnecdotes}/>
+      <Display text = {`has ${maxVoted} votes`} />
     </>
-    )} </div>
+    )} </div>)
   };
 
 const App = () => {

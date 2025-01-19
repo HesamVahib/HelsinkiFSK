@@ -1,25 +1,44 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/persons'
+const mainUrl = 'http://localhost:3000/persons'
 
 const getAll = () => {
-    const request = axios.get(baseUrl)
-    return request.then(response => response.data)
+    const request = axios.get(mainUrl)
+    return (
+      request
+      .then(response => response.data)
+      .catch(error => {
+        console.log('error', error)
+      }))
   }
 
 const create = newObject => {
-  const request = axios.post(baseUrl, newObject)
-  return request.then(response => response.data)
+  const request = axios.post(mainUrl, newObject)
+  return (
+    request
+    .then(response => response.data)
+    .catch(error => {
+      console.log('error', error)
+    }))
 }
 
 const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
+  const request = axios.put(`${mainUrl}/${id}`, newObject)
+  return (
+    request
+    .then(response => response.data)
+    .catch(error => {
+      console.log('error', error)
+    }))
 }
 
-const deleteContact = (url) => {
-  const request = axios.delete(url)
-  return request.then(response => response.data)
+const deleteContact = (id) => {
+  const request = axios.delete(`${mainUrl}/${id}`)
+  return (
+    request
+    .then(response => response.data)
+    .catch(error => {
+      console.log('error', error)
+    }))
 }
 
-export default {getAll, create, update, deleteContact}
-export const mainUrl = baseUrl
+export default {getAll: getAll, create: create, update: update, deleteContact: deleteContact, mainUrl: mainUrl}
